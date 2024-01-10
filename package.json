@@ -1,0 +1,7 @@
+{
+  "name": "aaronmamparo.com",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ]
+}
