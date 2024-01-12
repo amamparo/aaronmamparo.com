@@ -8,7 +8,6 @@ import { Certificate } from 'aws-cdk-lib/aws-certificatemanager'
 import { ARecord, HostedZone, RecordTarget } from 'aws-cdk-lib/aws-route53'
 import { ApiGateway } from 'aws-cdk-lib/aws-route53-targets'
 import { User } from 'aws-cdk-lib/aws-iam'
-import { AttributeType, BillingMode, Table } from 'aws-cdk-lib/aws-dynamodb'
 import { LambdaDestination } from 'aws-cdk-lib/aws-s3-notifications'
 
 const account = process.env.CDK_DEFAULT_ACCOUNT
@@ -21,19 +20,7 @@ class Api extends Stack {
 		const bucket = new Bucket(this, 'blog-bucket', {
 			removalPolicy: RemovalPolicy.DESTROY
 		})
-
-		const bucketUploader = new User(this, 'upload-user')
-		bucket.grantReadWrite(bucketUploader)
-
-		const blogTable = new Table(this, 'blog-table', {
-			partitionKey: {
-				name: 'slug',
-				type: AttributeType.STRING
-			},
-			billingMode: BillingMode.PAY_PER_REQUEST,
-			removalPolicy: RemovalPolicy.DESTROY,
-			deletionProtection: false
-		})
+		bucket.grantReadWrite(new User(this, 'upload-user'))
 
 		const indexBlogFunction = new DockerImageFunction(this, 'index-blog-function', {
 			code: DockerImageCode.fromImageAsset(path.join(__dirname, '..'), {
@@ -47,15 +34,15 @@ class Api extends Stack {
 			ephemeralStorageSize: Size.gibibytes(0.5),
 			memorySize: 256,
 			environment: {
-				BUCKET_NAME: bucket.bucketName,
-				TABLE_NAME: blogTable.tableName
+				BUCKET_NAME: bucket.bucketName
 			}
 		})
 
-		bucket.grantRead(indexBlogFunction)
-		blogTable.grantReadWriteData(indexBlogFunction)
-		bucket.addEventNotification(EventType.OBJECT_CREATED, new LambdaDestination(indexBlogFunction));
-
+		bucket.grantReadWrite(indexBlogFunction)
+		const destination = new LambdaDestination(indexBlogFunction)
+		;[EventType.OBJECT_CREATED, EventType.OBJECT_REMOVED].forEach(eventType => {
+			bucket.addEventNotification(eventType, destination, { suffix: '.md' })
+		})
 
 		const restApi = new LambdaRestApi(this, 'api', {
 			handler: new DockerImageFunction(this, 'api-function', {
