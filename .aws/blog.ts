@@ -3,7 +3,7 @@ import { Platform } from 'aws-cdk-lib/aws-ecr-assets'
 import { BlockPublicAccess, Bucket, EventType, HttpMethods } from 'aws-cdk-lib/aws-s3'
 import { DockerImageCode, DockerImageFunction } from 'aws-cdk-lib/aws-lambda'
 import { ICertificate } from 'aws-cdk-lib/aws-certificatemanager'
-import { ARecord, HostedZone, RecordTarget } from 'aws-cdk-lib/aws-route53'
+import { ARecord, HostedZone, IHostedZone, RecordTarget } from 'aws-cdk-lib/aws-route53'
 import { CloudFrontTarget } from 'aws-cdk-lib/aws-route53-targets'
 import { User } from 'aws-cdk-lib/aws-iam'
 import { LambdaDestination } from 'aws-cdk-lib/aws-s3-notifications'
@@ -13,10 +13,9 @@ import { CloudFrontWebDistribution, ViewerCertificate } from 'aws-cdk-lib/aws-cl
 
 
 export default class Blog extends Construct {
-	constructor(scope: Stack, certificate: ICertificate) {
+	constructor(scope: Stack, certificate: ICertificate, hostedZone: IHostedZone, domainName: string) {
 		super(scope, 'blog')
 		const subDomain = 'blog'
-		const domainName = 'aaronmamparo.com'
 		const blogDomain = `${subDomain}.${domainName}`
 
 		const obsidianUploader = new User(this, 'obsidian-uploader')
@@ -65,7 +64,7 @@ export default class Blog extends Construct {
 		})
 
 		new ARecord(this, 'a-record', {
-			zone: HostedZone.fromLookup(this, 'hosted-zone', { domainName }),
+			zone: hostedZone,
 			recordName: subDomain,
 			target: RecordTarget.fromAlias(new CloudFrontTarget(distribution))
 		})
