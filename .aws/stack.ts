@@ -44,7 +44,7 @@ class Website extends Stack {
 				environment: {
 					PORT: port.toString(),
 					ORIGIN: `https://${domainName}`,
-					BLOG_BUCKET_URL: `https://${blogDomainName}`
+					VITE_BLOG_BUCKET_URL: `https://${blogDomainName}`
 				}
 			}
 		})
