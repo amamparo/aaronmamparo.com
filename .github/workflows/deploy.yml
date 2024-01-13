@@ -28,7 +28,17 @@ jobs:
                     aws-region: us-east-1
             -   uses: oven-sh/setup-bun@v1
             -   run: bun install
+            -   uses: actions/cache@v2
+                with:
+                    path: /tmp/.docker
+                    key: ${{ runner.os }}-docker-${{ hashFiles('**/Dockerfile') }}
+                    restore-keys: |
+                        ${{ runner.os }}-docker-
             -   run: bun deploy:stack
+            -   uses: actions/cache@v2
+                with:
+                    path: /tmp/.docker
+                    key: ${{ runner.os }}-docker-${{ hashFiles('**/Dockerfile') }}
             -   name: Clear cloudfront cache
                 run: |
                     aws cloudfront create-invalidation --distribution-id "${CF_DISTRIBUTION_ID}" --paths "/*"
