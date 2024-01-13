@@ -14,6 +14,6 @@ export async function load({ params, parent }) {
 	}
 	return {
 		...blogPost,
-		body: await res.text()
+		content: await res.text()
 	}
 }
