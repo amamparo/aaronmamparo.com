@@ -8,12 +8,9 @@ import { User } from 'aws-cdk-lib/aws-iam'
 import { LambdaDestination } from 'aws-cdk-lib/aws-s3-notifications'
 import * as path from 'path'
 import { Construct } from 'constructs'
-import {
-	CloudFrontWebDistribution,
-	type IDistribution,
-	ViewerCertificate
-} from 'aws-cdk-lib/aws-cloudfront'
+import { Distribution, type IDistribution, ResponseHeadersPolicy } from 'aws-cdk-lib/aws-cloudfront'
 import type { ICertificate } from 'aws-cdk-lib/aws-certificatemanager'
+import { S3Origin } from 'aws-cdk-lib/aws-cloudfront-origins'
 
 export default class Blog extends Construct {
 	constructor(
@@ -36,8 +33,7 @@ export default class Blog extends Construct {
 				{
 					allowedHeaders: ['*'],
 					allowedMethods: [HttpMethods.GET],
-					allowedOrigins: ['*'],
-					exposedHeaders: ['ETag']
+					allowedOrigins: ['*']
 				}
 			],
 			removalPolicy: RemovalPolicy.DESTROY
@@ -62,22 +58,14 @@ export default class Blog extends Construct {
 			bucket.addEventNotification(eventType, indexBlogDestination, { suffix: '.md' })
 		})
 
-		const distribution = new CloudFrontWebDistribution(this, 'distribution', {
-			originConfigs: [
-				{
-					s3OriginSource: { s3BucketSource: bucket },
-					behaviors: [
-						{
-							maxTtl: Duration.seconds(0),
-							defaultTtl: Duration.seconds(0),
-							isDefaultBehavior: true
-						}
-					]
-				}
-			],
-			viewerCertificate: ViewerCertificate.fromAcmCertificate(certificate, {
-				aliases: [blogDomainName]
-			})
+		const distribution = new Distribution(this, 'distribution', {
+			defaultBehavior: {
+				origin: new S3Origin(bucket),
+				responseHeadersPolicy: ResponseHeadersPolicy.CORS_ALLOW_ALL_ORIGINS
+			},
+			certificate,
+			domainNames: [blogDomainName],
+			defaultRootObject: 'index.json'
 		})
 
 		new ARecord(this, 'a-record', {
