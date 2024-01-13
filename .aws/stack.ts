@@ -62,7 +62,7 @@ class Website extends Stack {
 				}
 			],
 			viewerCertificate: ViewerCertificate.fromAcmCertificate(certificate, { aliases: [domainName] }),
-			defaultRootObject: undefined
+			defaultRootObject: ''
 		})
 
 		new ARecord(this, 'a-record', {
