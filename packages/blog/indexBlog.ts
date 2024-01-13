@@ -1,3 +1,4 @@
+import { CloudFrontClient, CreateInvalidationCommand } from '@aws-sdk/client-cloudfront'
 import {
 	GetObjectCommand,
 	ListObjectsCommand,
@@ -19,6 +20,7 @@ await (async () => {
 	const bucketName = process.env.BUCKET_NAME as string
 
 	const s3 = new S3Client()
+	const cloudFront = new CloudFrontClient()
 
 	const data = await s3.send(new ListObjectsCommand({ Bucket: bucketName }))
 	if (!data.Contents) {
@@ -32,7 +34,7 @@ await (async () => {
 		matches.map(async ({ Key }) => {
 			const object = await s3.send(new GetObjectCommand({ Bucket: bucketName, Key }))
 			const body = (await object.Body?.transformToString()) as string
-			const [_, date, title] = (Key as string).match(
+			const [, date, title] = (Key as string).match(
 				/^(\d{4}-\d{2}-\d{2}) (.+)\.md$/
 			) as string[]
 			const slug = `${date}-${title
@@ -56,4 +58,15 @@ await (async () => {
 			Body: JSON.stringify(items)
 		})
 	)
+
+	await cloudFront.send(new CreateInvalidationCommand({
+		DistributionId: process.env.WEBSITE_DISTRIBUTION_ID as string,
+		InvalidationBatch: {
+			CallerReference: Date.now().toString(),
+			Paths: {
+				Quantity: 1,
+				Items: ['/*']
+			}
+		}
+	}))
 })()

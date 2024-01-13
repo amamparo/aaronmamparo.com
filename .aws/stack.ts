@@ -1,11 +1,13 @@
-import { App, Stack } from 'aws-cdk-lib'
+import { App, Duration, Stack } from 'aws-cdk-lib'
 import Blog from './blog'
 import { Certificate } from 'aws-cdk-lib/aws-certificatemanager'
 import { ApplicationLoadBalancedFargateService } from 'aws-cdk-lib/aws-ecs-patterns'
 import { AssetImage } from 'aws-cdk-lib/aws-ecs'
 import * as path from 'path'
 import { Platform } from 'aws-cdk-lib/aws-ecr-assets'
-import { HostedZone } from 'aws-cdk-lib/aws-route53'
+import { ARecord, HostedZone, RecordTarget } from 'aws-cdk-lib/aws-route53'
+import { CloudFrontWebDistribution, OriginProtocolPolicy, ViewerCertificate } from 'aws-cdk-lib/aws-cloudfront'
+import { CloudFrontTarget } from 'aws-cdk-lib/aws-route53-targets'
 
 const account = process.env.CDK_DEFAULT_ACCOUNT
 const region = process.env.CDK_DEFAULT_REGION
@@ -14,6 +16,7 @@ class Website extends Stack {
 	constructor(scope: App) {
 		super(scope, 'aaronmamparo-com', { env: { account, region } })
 		const domainName = 'aaronmamparo.com'
+		const blogDomainName = `blog.${domainName}`
 
 		const hostedZone = HostedZone.fromLookup(this, 'hosted-zone', { domainName })
 
@@ -24,7 +27,7 @@ class Website extends Stack {
 		)
 
 		const port = 3000
-		new ApplicationLoadBalancedFargateService(this, 'service', {
+		const service = new ApplicationLoadBalancedFargateService(this, 'service', {
 			cpu: 256,
 			memoryLimitMiB: 512,
 			desiredCount: 1,
@@ -36,15 +39,39 @@ class Website extends Stack {
 				containerPort: port,
 				environment: {
 					PORT: port.toString(),
-					ORIGIN: `https://${domainName}`
+					ORIGIN: `https://${domainName}`,
+					BLOG_BUCKET_URL: `https://${blogDomainName}`
 				}
-			},
-			domainName,
-			domainZone: hostedZone,
-			certificate
+			}
 		})
 
-		new Blog(this, certificate, hostedZone, domainName)
+		const distribution = new CloudFrontWebDistribution(this, 'distribution', {
+			originConfigs: [
+				{
+					customOriginSource: {
+						domainName: service.loadBalancer.loadBalancerDnsName,
+						originProtocolPolicy: OriginProtocolPolicy.HTTP_ONLY
+					},
+					behaviors: [
+						{
+							isDefaultBehavior: true,
+							maxTtl: Duration.days(365),
+							defaultTtl: Duration.days(365)
+						}
+					]
+				}
+			],
+			viewerCertificate: ViewerCertificate.fromAcmCertificate(certificate, { aliases: [domainName] }),
+			defaultRootObject: undefined
+		})
+
+		new ARecord(this, 'a-record', {
+			zone: hostedZone,
+			recordName: domainName,
+			target: RecordTarget.fromAlias(new CloudFrontTarget(distribution))
+		})
+
+		new Blog(this, certificate, hostedZone, blogDomainName, distribution)
 	}
 }
 

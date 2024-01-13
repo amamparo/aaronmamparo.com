@@ -2,32 +2,32 @@ import { Duration, RemovalPolicy, Size, Stack } from 'aws-cdk-lib'
 import { Platform } from 'aws-cdk-lib/aws-ecr-assets'
 import { BlockPublicAccess, Bucket, EventType, HttpMethods } from 'aws-cdk-lib/aws-s3'
 import { DockerImageCode, DockerImageFunction } from 'aws-cdk-lib/aws-lambda'
-import { ICertificate } from 'aws-cdk-lib/aws-certificatemanager'
-import { ARecord, HostedZone, IHostedZone, RecordTarget } from 'aws-cdk-lib/aws-route53'
+import { ARecord, type IHostedZone, RecordTarget } from 'aws-cdk-lib/aws-route53'
 import { CloudFrontTarget } from 'aws-cdk-lib/aws-route53-targets'
 import { User } from 'aws-cdk-lib/aws-iam'
 import { LambdaDestination } from 'aws-cdk-lib/aws-s3-notifications'
 import * as path from 'path'
 import { Construct } from 'constructs'
-import { CloudFrontWebDistribution, ViewerCertificate } from 'aws-cdk-lib/aws-cloudfront'
+import { CloudFrontWebDistribution, type IDistribution, ViewerCertificate } from 'aws-cdk-lib/aws-cloudfront'
+import type { ICertificate } from 'aws-cdk-lib/aws-certificatemanager'
 
 export default class Blog extends Construct {
 	constructor(
 		scope: Stack,
 		certificate: ICertificate,
 		hostedZone: IHostedZone,
-		domainName: string
+		blogDomainName: string,
+		websiteDistribution: IDistribution
 	) {
 		super(scope, 'blog')
-		const subDomain = 'blog'
-		const blogDomain = `${subDomain}.${domainName}`
 
-		const obsidianUploader = new User(this, 'obsidian-uploader')
+		const obsidianUploader = new User(this, 'uploader')
 
 		const bucket = new Bucket(this, 'bucket', {
-			bucketName: blogDomain,
+			bucketName: blogDomainName,
 			websiteIndexDocument: 'index.json',
 			publicReadAccess: true,
+			blockPublicAccess: BlockPublicAccess.BLOCK_ACLS,
 			cors: [
 				{
 					allowedHeaders: ['*'],
@@ -48,7 +48,8 @@ export default class Blog extends Construct {
 			ephemeralStorageSize: Size.gibibytes(0.5),
 			memorySize: 256,
 			environment: {
-				BUCKET_NAME: bucket.bucketName
+				BUCKET_NAME: bucket.bucketName,
+				WEBSITE_DISTRIBUTION_ID: websiteDistribution.distributionId
 			}
 		})
 
@@ -60,24 +61,27 @@ export default class Blog extends Construct {
 		const distribution = new CloudFrontWebDistribution(this, 'distribution', {
 			originConfigs: [
 				{
-					s3OriginSource: {
-						s3BucketSource: bucket
-					},
-					behaviors: [{ isDefaultBehavior: true }]
+					s3OriginSource: { s3BucketSource: bucket },
+					behaviors: [
+						{
+							maxTtl: Duration.seconds(0),
+							defaultTtl: Duration.seconds(0),
+							isDefaultBehavior: true
+						}
+					]
 				}
 			],
-			viewerCertificate: ViewerCertificate.fromAcmCertificate(certificate, {
-				aliases: [blogDomain]
-			})
+			viewerCertificate: ViewerCertificate.fromAcmCertificate(certificate, { aliases: [blogDomainName] })
 		})
 
 		new ARecord(this, 'a-record', {
 			zone: hostedZone,
-			recordName: subDomain,
+			recordName: blogDomainName,
 			target: RecordTarget.fromAlias(new CloudFrontTarget(distribution))
 		})
 
 		bucket.grantReadWrite(obsidianUploader)
 		bucket.grantReadWrite(indexBlogFunction)
+		websiteDistribution.grantCreateInvalidation(indexBlogFunction)
 	}
 }
