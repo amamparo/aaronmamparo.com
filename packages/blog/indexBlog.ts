@@ -1,9 +1,5 @@
-import wrap from './lambda.ts'
 import { GetObjectCommand, ListObjectsCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
 
-const bucketName = process.env.BUCKET_NAME as string
-
-const s3 = new S3Client()
 
 const getTags = (markdown: string): string[] => {
 	const unique = new Set<string>()
@@ -15,7 +11,11 @@ const getTags = (markdown: string): string[] => {
 	return [...unique].toSorted()
 }
 
-await wrap(async () => {
+await (async () => {
+	const bucketName = process.env.BUCKET_NAME as string
+
+	const s3 = new S3Client()
+
 	const data = await s3.send(new ListObjectsCommand({ Bucket: bucketName }))
 	if (!data.Contents) {
 		return
@@ -38,7 +38,8 @@ await wrap(async () => {
 
 	await s3.send(new PutObjectCommand({
 		Bucket: bucketName,
-		Key: 'index.jsonl',
-		Body: items.map(item => JSON.stringify(item)).join('\n')
+		Key: 'index.json',
+		Body: JSON.stringify(items)
 	}))
-})
+})()
+

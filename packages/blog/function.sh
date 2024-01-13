@@ -1,7 +1,7 @@
 #!/bin/zsh
 
 function handler () {
-	output=$(./bun_executable "$1")
+	output=$(./indexBlog "$1")
     while IFS= read -r line; do
       echo "$line" 1>&2
     done <<< "$output"
