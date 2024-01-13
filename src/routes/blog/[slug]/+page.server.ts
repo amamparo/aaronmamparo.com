@@ -4,7 +4,7 @@ import { error, type NumericRange } from '@sveltejs/kit'
 export async function load({ params, parent }) {
 	const { slug } = params
 	const { blogPosts } = await parent()
-	const blogPost = blogPosts.find(x => x.slug === slug)
+	const blogPost = blogPosts.find((x) => x.slug === slug)
 	if (!blogPost) {
 		error(404)
 	}

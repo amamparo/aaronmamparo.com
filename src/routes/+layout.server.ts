@@ -1,10 +1,10 @@
 import { env } from '$env/dynamic/public'
 
 export type BlogPost = {
-	slug: string,
-	date: string,
-	title: string,
-	s3Key: string,
+	slug: string
+	date: string
+	title: string
+	s3Key: string
 	tags: string[]
 }
 
