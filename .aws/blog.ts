@@ -11,9 +11,13 @@ import * as path from 'path'
 import { Construct } from 'constructs'
 import { CloudFrontWebDistribution, ViewerCertificate } from 'aws-cdk-lib/aws-cloudfront'
 
-
 export default class Blog extends Construct {
-	constructor(scope: Stack, certificate: ICertificate, hostedZone: IHostedZone, domainName: string) {
+	constructor(
+		scope: Stack,
+		certificate: ICertificate,
+		hostedZone: IHostedZone,
+		domainName: string
+	) {
 		super(scope, 'blog')
 		const subDomain = 'blog'
 		const blogDomain = `${subDomain}.${domainName}`
@@ -49,18 +53,22 @@ export default class Blog extends Construct {
 		})
 
 		const indexBlogDestination = new LambdaDestination(indexBlogFunction)
-		;[EventType.OBJECT_CREATED, EventType.OBJECT_REMOVED].forEach(eventType => {
+		;[EventType.OBJECT_CREATED, EventType.OBJECT_REMOVED].forEach((eventType) => {
 			bucket.addEventNotification(eventType, indexBlogDestination, { suffix: '.md' })
 		})
 
 		const distribution = new CloudFrontWebDistribution(this, 'distribution', {
-			originConfigs: [{
-				s3OriginSource: {
-					s3BucketSource: bucket
-				},
-				behaviors: [{ isDefaultBehavior: true }]
-			}],
-			viewerCertificate: ViewerCertificate.fromAcmCertificate(certificate, { aliases: [blogDomain] })
+			originConfigs: [
+				{
+					s3OriginSource: {
+						s3BucketSource: bucket
+					},
+					behaviors: [{ isDefaultBehavior: true }]
+				}
+			],
+			viewerCertificate: ViewerCertificate.fromAcmCertificate(certificate, {
+				aliases: [blogDomain]
+			})
 		})
 
 		new ARecord(this, 'a-record', {

@@ -1,7 +1,7 @@
 {
-  "app": "bun .aws/stack.ts",
-  "versionReporting": false,
-  "context": {
-    "aws-cdk:enableDiffNoFail": "true"
-  }
+	"app": "bun .aws/stack.ts",
+	"versionReporting": false,
+	"context": {
+		"aws-cdk:enableDiffNoFail": "true"
+	}
 }
