@@ -44,7 +44,7 @@ class Website extends Stack {
 				environment: {
 					PORT: port.toString(),
 					ORIGIN: `https://${domainName}`,
-					BLOG_BUCKET_URL: `https://${blogDomainName}`
+					PUBLIC_BLOG_BUCKET_URL: `https://${blogDomainName}`
 				}
 			}
 		})
@@ -60,7 +60,8 @@ class Website extends Stack {
 						{
 							isDefaultBehavior: true,
 							maxTtl: Duration.days(365),
-							defaultTtl: Duration.days(365)
+							defaultTtl: Duration.days(365),
+							compress: true
 						}
 					]
 				}

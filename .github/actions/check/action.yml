@@ -3,10 +3,10 @@ description: 'CI check'
 runs:
     using: 'composite'
     steps:
-        -   uses: oven-sh/setup-bun@v1
-        -   run: bun install
-            shell: bash
-        -   run: bun lint
-            shell: bash
-        -   run: bun check
-            shell: bash
+        - uses: oven-sh/setup-bun@v1
+        - run: bun install
+          shell: bash
+        - run: bun lint
+          shell: bash
+        - run: bun check
+          shell: bash
