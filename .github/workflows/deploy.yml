@@ -31,4 +31,4 @@ jobs:
             -   run: bun deploy:stack
             -   name: Clear cloudfront cache
                 run: |
-                    aws cloudfront create-invalidation --distribution-id CF_DISTRIBUTION_ID --paths "/*"
+                    aws cloudfront create-invalidation --distribution-id "${CF_DISTRIBUTION_ID}" --paths "/*"
