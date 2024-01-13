@@ -6,6 +6,7 @@ export type BlogPost = {
 	title: string
 	s3Key: string
 	tags: string[]
+	content: string
 }
 
 export async function fetchBlogIndex(): Promise<BlogPost[]> {
