@@ -8,21 +8,27 @@ on:
         branches:
             - master
 jobs:
+    check:
+        name: Check
+        runs-on: ubuntu-latest
+        steps:
+            -   uses: ./.github/actions/check
     deploy:
         name: Deploy
+        needs: check
         runs-on: ubuntu-latest
         environment: production
         env:
             CF_DISTRIBUTION_ID: E1B8MH60OTVHP
         steps:
             -   uses: actions/checkout@v2
-            -   uses: oven-sh/setup-bun@v1
-            -   run: bun install
             -   uses: aws-actions/configure-aws-credentials@v1
                 with:
                     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
                     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
                     aws-region: us-east-1
+            -   uses: oven-sh/setup-bun@v1
+            -   run: bun install
             -   run: bun deploy:stack
             -   name: Clear cloudfront cache
                 run: |

@@ -6,7 +6,11 @@ import { AssetImage } from 'aws-cdk-lib/aws-ecs'
 import * as path from 'path'
 import { Platform } from 'aws-cdk-lib/aws-ecr-assets'
 import { ARecord, HostedZone, RecordTarget } from 'aws-cdk-lib/aws-route53'
-import { CloudFrontWebDistribution, OriginProtocolPolicy, ViewerCertificate } from 'aws-cdk-lib/aws-cloudfront'
+import {
+	CloudFrontWebDistribution,
+	OriginProtocolPolicy,
+	ViewerCertificate
+} from 'aws-cdk-lib/aws-cloudfront'
 import { CloudFrontTarget } from 'aws-cdk-lib/aws-route53-targets'
 
 const account = process.env.CDK_DEFAULT_ACCOUNT
@@ -61,7 +65,9 @@ class Website extends Stack {
 					]
 				}
 			],
-			viewerCertificate: ViewerCertificate.fromAcmCertificate(certificate, { aliases: [domainName] }),
+			viewerCertificate: ViewerCertificate.fromAcmCertificate(certificate, {
+				aliases: [domainName]
+			}),
 			defaultRootObject: ''
 		})
 

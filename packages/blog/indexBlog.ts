@@ -59,14 +59,16 @@ await (async () => {
 		})
 	)
 
-	await cloudFront.send(new CreateInvalidationCommand({
-		DistributionId: process.env.WEBSITE_DISTRIBUTION_ID as string,
-		InvalidationBatch: {
-			CallerReference: Date.now().toString(),
-			Paths: {
-				Quantity: 1,
-				Items: ['/*']
+	await cloudFront.send(
+		new CreateInvalidationCommand({
+			DistributionId: process.env.WEBSITE_DISTRIBUTION_ID as string,
+			InvalidationBatch: {
+				CallerReference: Date.now().toString(),
+				Paths: {
+					Quantity: 1,
+					Items: ['/*']
+				}
 			}
-		}
-	}))
+		})
+	)
 })()
