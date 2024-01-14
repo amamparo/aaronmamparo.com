@@ -1,22 +1,17 @@
 <script lang="ts">
 	/* eslint-disable svelte/no-at-html-tags */
-	import { marked } from 'marked'
-	import Date from '$lib/components/Date.svelte'
-
-	export let data: BlogPost
-
-	import type { BlogPost } from '$lib/blog'
 	import Section from '$lib/components/Section.svelte'
 
-	const { title, tags, date, content } = data
+	import dayjs from 'dayjs'
+
+	export let data
+	const { title, date, tags, content } = data
 </script>
 
 <Section {title}>
-	<div class="blog-post-content">
-		{@html marked.parse(content, { breaks: true, gfm: true })}
-	</div>
+	<svelte:component this={content} />
 	<span class="meta">
-		<Date {date} />
+		<time>{dayjs(date).format('YYYY-MM-DD')}</time>
 		{#if tags.length}
 			·
 			{@html tags.map((tag) => `<a href="/">${tag}</a>`).join(', ')}

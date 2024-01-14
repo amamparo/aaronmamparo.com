@@ -1,15 +1,15 @@
 <script>
 	import '../app.css'
-	import HeaderLink from '$lib/components/HeaderLink.svelte'
+	import Link from './Link.svelte'
 </script>
 
 <main>
 	<header>
 		<nav>
 			<ul>
-				<HeaderLink href="/">Thoughts</HeaderLink>
-				<HeaderLink href="/about">About</HeaderLink>
-				<HeaderLink href="/atom.xml">Rss</HeaderLink>
+				<Link href="/">Thoughts</Link>
+				<Link href="/about">About</Link>
+				<Link href="/atom.xml">Rss</Link>
 			</ul>
 		</nav>
 	</header>
