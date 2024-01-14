@@ -1,19 +1,18 @@
 <script lang="ts">
 	/* eslint-disable svelte/no-at-html-tags */
-	import './blog-post.scss'
 	import { marked } from 'marked'
 	import Date from '$lib/components/Date.svelte'
 
 	export let data: BlogPost
 
 	import type { BlogPost } from '$lib/blog'
+	import Section from '$lib/components/Section.svelte'
 
 	const { title, tags, date, content } = data
 </script>
 
-<div class="blog-post">
-	<h1 class="title">{title}</h1>
-	<div class="content">
+<Section {title}>
+	<div class="blog-post-content">
 		{@html marked.parse(content, { breaks: true, gfm: true })}
 	</div>
 	<span class="meta">
@@ -23,16 +22,9 @@
 			{@html tags.map((tag) => `<a href="/">${tag}</a>`).join(', ')}
 		{/if}
 	</span>
-</div>
+</Section>
 
 <style lang="scss">
-	.title {
-		line-height: 1;
-		margin: 0 0 1rem;
-		font-weight: 600;
-		font-size: 1.25rem;
-	}
-
 	.meta {
 		margin: 2rem 0;
 	}
