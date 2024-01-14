@@ -12,3 +12,5 @@ runs:
           shell: bash
         - run: bun test
           shell: bash
+        - run: bun run build
+          shell: bash
