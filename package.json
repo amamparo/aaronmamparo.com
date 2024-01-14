@@ -4,9 +4,8 @@
 	"private": true,
 	"scripts": {
 		"test": "bun test",
-		"blog": "bun blog/indexBlog.ts",
-		"dev": "bun blog && vite dev",
-		"build": "bun blog && vite build && rm -rf static/_blog",
+		"dev": "vite dev",
+		"build": "vite build",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig tsconfig.json --watch",

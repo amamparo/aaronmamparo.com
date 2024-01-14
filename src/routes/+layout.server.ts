@@ -1,12 +1,10 @@
-import type { BlogPostMetadata } from '$lib/blog'
+import { getBlogPosts } from '$lib/blog'
 
 export const prerender = true
 export const trailingSlash = 'always'
 
-export async function load({ fetch }) {
+export async function load() {
 	return {
-		blogPostMetadatas: (await (
-			await fetch('/_blog/publish/index.json')
-		).json()) as BlogPostMetadata[]
+		blogPosts: await getBlogPosts()
 	}
 }

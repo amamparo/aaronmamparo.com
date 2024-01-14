@@ -4,10 +4,10 @@
 </script>
 
 <ul>
-	{#each $page.data.blogPostMetadatas as blogPostMetadata}
+	{#each $page.data.blogPosts as blogPost}
 		<li>
-			<a href="/post/{blogPostMetadata.slug}">{blogPostMetadata.title}</a>
-			<Date date={blogPostMetadata.date} />
+			<a href="/post/{blogPost.slug}">{blogPost.title}</a>
+			<Date date={blogPost.date} />
 		</li>
 	{/each}
 </ul>
