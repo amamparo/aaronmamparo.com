@@ -1,14 +1,13 @@
 import { describe, test, expect, beforeAll } from 'bun:test'
-import type { BlogPost } from '../src/lib/blog'
-import { getBlogPost } from './getBlogPost'
+import { type BlogPost, parseBlogPost } from './blog'
 
-describe('getBlogPost', () => {
+describe('parseBlogPost', () => {
 	describe('successfully', () => {
 		describe('all metadata', () => {
 			let blogPost: BlogPost
 
 			beforeAll(async () => {
-				blogPost = await getBlogPost(`
+				blogPost = await parseBlogPost(`
 				
 					---
 					title: Hello, World!
@@ -22,19 +21,19 @@ describe('getBlogPost', () => {
 			})
 
 			test('title', () => {
-				expect(blogPost.metadata.title).toBe('Hello, World!')
+				expect(blogPost.title).toBe('Hello, World!')
 			})
 
 			test('date', () => {
-				expect(blogPost.metadata.date).toBe('2024-01-01')
+				expect(blogPost.date).toBe('2024-01-01')
 			})
 
 			test('slug', () => {
-				expect(blogPost.metadata.slug).toBe('2024-01-01-hello-world')
+				expect(blogPost.slug).toBe('2024-01-01-hello-world')
 			})
 
 			test('tags', () => {
-				expect(blogPost.metadata.tags).toEqual(['foo', 'bar'])
+				expect(blogPost.tags).toEqual(['foo', 'bar'])
 			})
 
 			test('content', () => {
@@ -43,18 +42,18 @@ describe('getBlogPost', () => {
 		})
 
 		test('missing tags', async () => {
-			const blogPost = await getBlogPost(`
+			const blogPost = await parseBlogPost(`
 				---
 				title: Hello, World!
 				date: 2024-01-01
 				---
 				Lorem ipsum dolor sim amet
 			`)
-			expect(blogPost.metadata.tags).toBeEmpty()
+			expect(blogPost.tags).toBeEmpty()
 		})
 
 		test('with dividers in content', async () => {
-			const blogPost = await getBlogPost(`
+			const blogPost = await parseBlogPost(`
 				---
 				title: Hello, World!
 				date: 2024-01-01
@@ -79,7 +78,7 @@ describe('getBlogPost', () => {
 
 	describe('unsuccessfully', async () => {
 		test('missing front matter', async () => {
-			expect(await getErrorMessage(getBlogPost(`Lorem ipsum dolor sim amet`))).toBe(
+			expect(await getErrorMessage(parseBlogPost(`Lorem ipsum dolor sim amet`))).toBe(
 				'Missing front matter'
 			)
 		})
@@ -87,7 +86,7 @@ describe('getBlogPost', () => {
 		test('missing title', async () => {
 			expect(
 				await getErrorMessage(
-					getBlogPost(`
+					parseBlogPost(`
 					---
 					title:
 					date: 2024-01-01
@@ -101,7 +100,7 @@ describe('getBlogPost', () => {
 		test('missing date', async () => {
 			expect(
 				await getErrorMessage(
-					getBlogPost(`
+					parseBlogPost(`
 					---
 					title: Hello, World!
 					---
@@ -114,7 +113,7 @@ describe('getBlogPost', () => {
 		test('invalid date', async () => {
 			expect(
 				await getErrorMessage(
-					getBlogPost(`
+					parseBlogPost(`
 					---
 					title: Hello, World!
 					date: 24-01-01
@@ -128,7 +127,7 @@ describe('getBlogPost', () => {
 		test('missing content', async () => {
 			expect(
 				await getErrorMessage(
-					getBlogPost(`
+					parseBlogPost(`
 					---
 					title: Hello, World!
 					date: 2024-01-01
