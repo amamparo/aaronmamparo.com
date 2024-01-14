@@ -1,6 +1,4 @@
 <script lang="ts">
-	import Section from '$lib/components/Section.svelte'
-
 	import type { FrontMatter } from '../../util/blogUtils'
 
 	/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
@@ -9,14 +7,5 @@
 	const { title } = frontMatter
 </script>
 
-<Section {title}>
-	<div class="prose">
-		<svelte:component this={content} />
-	</div>
-</Section>
-
-<style lang="scss">
-	:global(.markdown-body p) {
-		text-align: justify;
-	}
-</style>
+<h1>{title}</h1>
+<svelte:component this={content} />
