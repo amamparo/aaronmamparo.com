@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://aaronmamparo.com</id>
     <title>Aaron Mamparo</title>
-    <updated>0172-03-15T05:50:36.000Z</updated>
+    <updated>1992-07-06T05:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <author>
         <name>Aaron Mamparo</name>
@@ -11,6 +11,81 @@
     </author>
     <link rel="alternate" href="https://aaronmamparo.com"/>
     <rights>© 2024 Aaron Mamparo. All rights reserved.</rights>
+    <entry>
+        <title type="html"><![CDATA[Markdown Test]]></title>
+        <id>https://aaronmamparo.com/post/1992-07-06-markdown-test</id>
+        <link href="https://aaronmamparo.com/post/1992-07-06-markdown-test"/>
+        <updated>1992-07-06T05:00:00.000Z</updated>
+        <content type="html"><![CDATA[<h1>Sample Markdown for CSS Styling</h1>
+<p>This is a sample document to demonstrate the CSS styling of markdown content.</p>
+<h2>Table of Contents</h2>
+<ol>
+<li><a href="/">Headers</a></li>
+<li><a href="/">Text Formatting</a></li>
+<li><a href="/">Lists</a></li>
+<li><a href="/">Links and Images</a></li>
+<li><a href="/">Blockquotes</a></li>
+<li><a href="">Code</a></li>
+</ol>
+<h2>Headers</h2>
+<h1>Header 1</h1>
+<h2>Header 2</h2>
+<h3>Header 3</h3>
+<h4>Header 4</h4>
+<h5>Header 5</h5>
+<h6>Header 6</h6>
+<h2>Text Formatting</h2>
+<p><em>Italic text</em> or <em>italic text</em>.</p>
+<p><strong>Bold text</strong> or <strong>bold text</strong>.</p>
+<p><strong><em>Bold and italic</em></strong> or <strong><em>bold and italic</em></strong>.</p>
+<p><del>Strikethrough text</del>.</p>
+<h2>Lists</h2>
+<h3>Ordered List</h3>
+<ol>
+<li>First item</li>
+<li>Second item<ol>
+<li>Subitem</li>
+<li>Subitem</li>
+</ol>
+</li>
+<li>Third item</li>
+</ol>
+<h3>Unordered List</h3>
+<ul>
+<li>Bullet item</li>
+<li>Bullet item<ul>
+<li>Subitem</li>
+<li>Subitem</li>
+</ul>
+</li>
+<li>Bullet item</li>
+</ul>
+<h3>Task List</h3>
+<ul>
+<li><input checked="" disabled="" type="checkbox"> Completed task</li>
+<li><input disabled="" type="checkbox"> Incomplete task</li>
+<li><input disabled="" type="checkbox"> Another task</li>
+</ul>
+<h2>Links and Images</h2>
+<p><a href="https://www.openai.com/">OpenAI</a></p>
+<p><img src="https://via.placeholder.com/150" alt="Sample Image"></p>
+<h2>Blockquotes</h2>
+<blockquote>
+<p>This is a blockquote.</p>
+<blockquote>
+<p>Nested blockquote.</p>
+</blockquote>
+<p>End of blockquote.</p>
+</blockquote>
+<h2>Code</h2>
+<p>Inline <code>code</code> example.</p>
+<h3>Code Block</h3>
+<pre><code class="language-javascript">function helloWorld() {
+    console.log(&#39;Hello, world!&#39;)
+}
+</code></pre>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[Life's Impermanence and Inner Tranquility]]></title>
         <id>https://aaronmamparo.com/post/0172-03-15-lifes-impermanence-and-inner-tranquility</id>
