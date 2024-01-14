@@ -10,3 +10,5 @@ runs:
           shell: bash
         - run: bun check
           shell: bash
+        - run: bun test
+          shell: bash

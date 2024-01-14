@@ -1,5 +1,4 @@
 import { App, Duration, Stack } from 'aws-cdk-lib'
-import Blog from './blog'
 import { Certificate } from 'aws-cdk-lib/aws-certificatemanager'
 import { ApplicationLoadBalancedFargateService } from 'aws-cdk-lib/aws-ecs-patterns'
 import { AssetImage } from 'aws-cdk-lib/aws-ecs'
@@ -20,15 +19,6 @@ class Website extends Stack {
 	constructor(scope: App) {
 		super(scope, 'aaronmamparo-com', { env: { account, region } })
 		const domainName = 'aaronmamparo.com'
-		const blogDomainName = `blog.${domainName}`
-
-		const hostedZone = HostedZone.fromLookup(this, 'hosted-zone', { domainName })
-
-		const certificate = Certificate.fromCertificateArn(
-			this,
-			'certificate',
-			`arn:aws:acm:${region}:${account}:certificate/d4a83e58-baff-48b1-94e8-13a214184f81`
-		)
 
 		const port = 3000
 		const service = new ApplicationLoadBalancedFargateService(this, 'service', {
@@ -43,8 +33,7 @@ class Website extends Stack {
 				containerPort: port,
 				environment: {
 					PORT: port.toString(),
-					ORIGIN: `https://${domainName}`,
-					PUBLIC_BLOG_BUCKET_URL: `https://${blogDomainName}`
+					ORIGIN: `https://${domainName}`
 				}
 			}
 		})
@@ -66,19 +55,24 @@ class Website extends Stack {
 					]
 				}
 			],
-			viewerCertificate: ViewerCertificate.fromAcmCertificate(certificate, {
-				aliases: [domainName]
-			}),
+			viewerCertificate: ViewerCertificate.fromAcmCertificate(
+				Certificate.fromCertificateArn(
+					this,
+					'certificate',
+					`arn:aws:acm:${region}:${account}:certificate/d4a83e58-baff-48b1-94e8-13a214184f81`
+				),
+				{
+					aliases: [domainName]
+				}
+			),
 			defaultRootObject: ''
 		})
 
 		new ARecord(this, 'a-record', {
-			zone: hostedZone,
+			zone: HostedZone.fromLookup(this, 'hosted-zone', { domainName }),
 			recordName: domainName,
 			target: RecordTarget.fromAlias(new CloudFrontTarget(distribution))
 		})
-
-		new Blog(this, certificate, hostedZone, blogDomainName, distribution)
 	}
 }
 

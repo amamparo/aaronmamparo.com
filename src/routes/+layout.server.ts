@@ -1,7 +1,9 @@
-import { fetchBlogIndex } from '$lib/blog'
+import type { BlogPostMetadata } from '$lib/blog'
 
-export async function load() {
+export async function load({ fetch }) {
 	return {
-		blogPosts: await fetchBlogIndex()
+		blogPostMetadatas: (await (
+			await fetch('/_blog/publish/index.json')
+		).json()) as BlogPostMetadata[]
 	}
 }

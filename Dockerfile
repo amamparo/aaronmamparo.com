@@ -9,10 +9,6 @@ COPY bun.lockb .
 COPY vite.config.ts .
 COPY svelte.config.js .
 
-# HACK so that `bun install` doesn't fail due to `packages` not being copied (we don't need it)
-RUN apt-get update && apt-get install -y jq
-RUN jq 'del(.workspaces)' package.json > temp.json && mv temp.json package.json
-
 RUN bun install
 RUN bun run build
 
