@@ -10,7 +10,7 @@
 </script>
 
 <Section {title}>
-	<div class="markdown-body">
+	<div class="prose">
 		<svelte:component this={content} />
 	</div>
 </Section>
