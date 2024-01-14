@@ -9,7 +9,7 @@
 			<ul>
 				<HeaderLink href="/">Thoughts</HeaderLink>
 				<HeaderLink href="/about">About</HeaderLink>
-				<HeaderLink href="/rss">Rss</HeaderLink>
+				<HeaderLink href="/atom.xml">Rss</HeaderLink>
 			</ul>
 		</nav>
 	</header>
