@@ -7,5 +7,7 @@
 	const { title } = frontMatter
 </script>
 
-<h1>{title}</h1>
-<svelte:component this={content} />
+<article class="prose">
+	<h2>{title}</h2>
+	<svelte:component this={content} />
+</article>
