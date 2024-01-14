@@ -1,6 +1,6 @@
 # TODO
 
--   Static site generation?
--   About page
 -   RSS feed
 -   Disqus commenting
+-   Tags browsing
+-   Optimize blog loading/storage

@@ -1,16 +1,19 @@
 <script context="module" lang="ts">
 	import { page } from '$app/stores'
 	import Date from '$lib/components/Date.svelte'
+	import Section from '$lib/components/Section.svelte'
 </script>
 
-<ul>
-	{#each $page.data.blogPosts as blogPost}
-		<li>
-			<a href="/post/{blogPost.slug}">{blogPost.title}</a>
-			<Date date={blogPost.date} />
-		</li>
-	{/each}
-</ul>
+<Section>
+	<ul>
+		{#each $page.data.blogPosts as blogPost}
+			<li>
+				<a href="/post/{blogPost.slug}">{blogPost.title}</a>
+				<Date date={blogPost.date} />
+			</li>
+		{/each}
+	</ul>
+</Section>
 
 <style lang="scss">
 	ul {
