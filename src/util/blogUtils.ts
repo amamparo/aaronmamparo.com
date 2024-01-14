@@ -21,5 +21,6 @@ export function parseFrontMatter(frontMatter: Record<string, unknown>): FrontMat
 		tags: ((frontMatter.tags as string | undefined) ?? '')
 			.split(',')
 			.map((tag: string) => tag.trim())
+			.filter((tag) => tag.length > 0)
 	}
 }
