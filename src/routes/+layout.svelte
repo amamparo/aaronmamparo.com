@@ -7,9 +7,8 @@
 	<header>
 		<nav>
 			<ul>
-				<HeaderLink href="/">Writing</HeaderLink>
+				<HeaderLink href="/">Thoughts</HeaderLink>
 				<HeaderLink href="/about">About</HeaderLink>
-				<HeaderLink href="/search">Search</HeaderLink>
 				<HeaderLink href="/rss">Rss</HeaderLink>
 			</ul>
 		</nav>

@@ -18,7 +18,7 @@
 		<Date {date} />
 		{#if tags.length}
 			·
-			{@html tags.map((tag) => `<a href="/tag/${tag}">${tag}</a>`).join(', ')}
+			{@html tags.map((tag) => `<a href="/">${tag}</a>`).join(', ')}
 		{/if}
 	</span>
 </div>

@@ -18,7 +18,8 @@ jobs:
         runs-on: ubuntu-latest
         environment: production
         env:
-            CF_DISTRIBUTION_ID: E1B8MH60OTVHP
+            CF_DISTRIBUTION_ID: ESK99ORO9Y70O
+            BUCKET: aaronmamparo.com
         steps:
             - uses: actions/checkout@v2
             - uses: aws-actions/configure-aws-credentials@v1
@@ -28,17 +29,9 @@ jobs:
                   aws-region: us-east-1
             - uses: oven-sh/setup-bun@v1
             - run: bun install
-            - uses: actions/cache@v2
-              with:
-                  path: /tmp/.docker
-                  key: ${{ runner.os }}-docker-${{ hashFiles('**/Dockerfile') }}
-                  restore-keys: |
-                      ${{ runner.os }}-docker-
+            - run: bun build
             - run: bun deploy:stack
-            - uses: actions/cache@v2
-              with:
-                  path: /tmp/.docker
-                  key: ${{ runner.os }}-docker-${{ hashFiles('**/Dockerfile') }}
+            - name: Upload to S3
+              run: aws s3 sync build "s3://${BUCKET}" --delete
             - name: Clear cloudfront cache
-              run: |
-                  aws cloudfront create-invalidation --distribution-id "${CF_DISTRIBUTION_ID}" --paths "/*"
+              run: aws cloudfront create-invalidation --distribution-id "${CF_DISTRIBUTION_ID}" --paths "/*"

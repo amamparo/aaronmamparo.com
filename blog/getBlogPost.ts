@@ -1,16 +1,18 @@
 import type { BlogPost } from '../src/lib/blog'
 
 export const getBlogPost = async (markdown: string): Promise<BlogPost> => {
-	const frontMatterMatch = markdown.trim().match(/^---\s*[\s\S]+?---/)
-	if (!frontMatterMatch) {
+	const sections = markdown.trim().split('---')
+	if (sections.length < 3 || sections[0] !== '') {
 		throw new Error('Missing front matter')
 	}
-	const content = markdown.split('---').pop()!.trim()
+	const frontMatterSection = sections[1]
+	const content = sections.slice(2).join('---').trim()
 	if (!content) {
 		throw new Error('Missing content')
 	}
-	const frontMatter = frontMatterMatch[0]
-		.replace(/---/g, '')
+
+	const frontMatter = frontMatterSection
+		.trim()
 		.split('\n')
 		.filter((x) => x.includes(':'))
 		.map((x) => x.split(':', 2))
@@ -46,6 +48,6 @@ export const getBlogPost = async (markdown: string): Promise<BlogPost> => {
 	}
 	return {
 		metadata,
-		content: markdown.split('---').pop()!.trim()
+		content
 	}
 }

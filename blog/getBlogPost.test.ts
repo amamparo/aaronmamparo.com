@@ -52,6 +52,29 @@ describe('getBlogPost', () => {
 			`)
 			expect(blogPost.metadata.tags).toBeEmpty()
 		})
+
+		test('with dividers in content', async () => {
+			const blogPost = await getBlogPost(`
+				---
+				title: Hello, World!
+				date: 2024-01-01
+				---
+				Lorem ipsum dolor sim amet
+				
+				---
+				
+				Foo bar
+			`)
+			expect(blogPost.content).toBe(
+				`
+				Lorem ipsum dolor sim amet
+				
+				---
+				
+				Foo bar
+			`.trim()
+			)
+		})
 	})
 
 	describe('unsuccessfully', async () => {

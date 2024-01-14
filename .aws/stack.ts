@@ -1,16 +1,13 @@
-import { App, Duration, Stack } from 'aws-cdk-lib'
+import { App, Duration, RemovalPolicy, Stack } from 'aws-cdk-lib'
 import { Certificate } from 'aws-cdk-lib/aws-certificatemanager'
-import { ApplicationLoadBalancedFargateService } from 'aws-cdk-lib/aws-ecs-patterns'
-import { AssetImage } from 'aws-cdk-lib/aws-ecs'
-import * as path from 'path'
-import { Platform } from 'aws-cdk-lib/aws-ecr-assets'
 import { ARecord, HostedZone, RecordTarget } from 'aws-cdk-lib/aws-route53'
 import {
 	CloudFrontWebDistribution,
-	OriginProtocolPolicy,
+	OriginAccessIdentity,
 	ViewerCertificate
 } from 'aws-cdk-lib/aws-cloudfront'
 import { CloudFrontTarget } from 'aws-cdk-lib/aws-route53-targets'
+import { BlockPublicAccess, Bucket, HttpMethods } from 'aws-cdk-lib/aws-s3'
 
 const account = process.env.CDK_DEFAULT_ACCOUNT
 const region = process.env.CDK_DEFAULT_REGION
@@ -20,30 +17,29 @@ class Website extends Stack {
 		super(scope, 'aaronmamparo-com', { env: { account, region } })
 		const domainName = 'aaronmamparo.com'
 
-		const port = 3000
-		const service = new ApplicationLoadBalancedFargateService(this, 'service', {
-			cpu: 256,
-			memoryLimitMiB: 512,
-			desiredCount: 1,
-			taskImageOptions: {
-				image: AssetImage.fromAsset(path.join(__dirname, '..'), {
-					platform: Platform.LINUX_AMD64
-				}),
-				enableLogging: true,
-				containerPort: port,
-				environment: {
-					PORT: port.toString(),
-					ORIGIN: `https://${domainName}`
+		const bucket = new Bucket(this, 'bucket', {
+			bucketName: domainName,
+			websiteIndexDocument: 'index.html',
+			publicReadAccess: true,
+			blockPublicAccess: BlockPublicAccess.BLOCK_ACLS,
+			cors: [
+				{
+					allowedHeaders: ['*'],
+					allowedMethods: [HttpMethods.GET],
+					allowedOrigins: ['*']
 				}
-			}
+			],
+			removalPolicy: RemovalPolicy.DESTROY,
+			autoDeleteObjects: true
 		})
+
+		bucket.grantRead(new OriginAccessIdentity(this, 'origin-access-identity'))
 
 		const distribution = new CloudFrontWebDistribution(this, 'distribution', {
 			originConfigs: [
 				{
-					customOriginSource: {
-						domainName: service.loadBalancer.loadBalancerDnsName,
-						originProtocolPolicy: OriginProtocolPolicy.HTTP_ONLY
+					s3OriginSource: {
+						s3BucketSource: bucket
 					},
 					behaviors: [
 						{
@@ -65,7 +61,7 @@ class Website extends Stack {
 					aliases: [domainName]
 				}
 			),
-			defaultRootObject: ''
+			defaultRootObject: 'index.html'
 		})
 
 		new ARecord(this, 'a-record', {

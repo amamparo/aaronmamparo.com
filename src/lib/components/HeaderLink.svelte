@@ -4,7 +4,7 @@
 	export let href: string
 </script>
 
-<li><a {href} class:active={$page.url.pathname === href}><slot /></a></li>
+<li><a {href} class:active={$page.url.pathname === `${href}/`.replace('//', '/')}><slot /></a></li>
 
 <style lang="scss">
 	li {
