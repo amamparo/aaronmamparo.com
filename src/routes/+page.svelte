@@ -1,15 +1,15 @@
-<script context="module" lang="ts">
+<script lang="ts">
 	import { page } from '$app/stores'
-	import Date from '$lib/components/Date.svelte'
+	import dayjs from 'dayjs'
 	import Section from '$lib/components/Section.svelte'
 </script>
 
 <Section>
 	<ul>
-		{#each $page.data.blogPosts as blogPost}
+		{#each $page.data.blogPosts as post}
 			<li>
-				<a href="/post/{blogPost.slug}">{blogPost.title}</a>
-				<Date date={blogPost.date} />
+				<a href="/post/{post.slug}">{post.title}</a>
+				<time>{dayjs(post.date).format('YYYY-MM-DD')}</time>
 			</li>
 		{/each}
 	</ul>

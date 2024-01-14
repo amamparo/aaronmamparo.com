@@ -17,11 +17,7 @@ body {
 	color: #16171a;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5 {
+h1, h2, h3, h4, h5 {
 	line-height: 1;
 	margin: 1.25rem 0 1rem;
 	font-weight: 600;

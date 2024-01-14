@@ -10,3 +10,4 @@ vite.config.ts.timestamp-*
 cdk.out
 .idea
 node_modules
+static/atom.xml
