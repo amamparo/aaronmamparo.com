@@ -4,7 +4,7 @@
 
 <div class="section">
 	{#if title}
-		<h1 class="title">{title}</h1>
+		<h2 class="title">{title}</h2>
 	{/if}
 	<slot />
 </div>
@@ -12,8 +12,11 @@
 <style lang="scss">
 	.title {
 		line-height: 1;
-		margin: 0.5rem 0 1rem;
+		margin: 0.25rem 0 1.5rem;
 		font-weight: 600;
-		font-size: 1.25rem;
+	}
+
+	:global(.section p) {
+		margin: 1rem 0;
 	}
 </style>

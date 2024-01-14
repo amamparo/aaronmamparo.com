@@ -46,6 +46,8 @@
 
 				ul {
 					list-style: none;
+					margin: 0;
+					padding: 0;
 					border-right: 1px solid #edf2f7;
 
 					@media (max-width: 45rem) {
