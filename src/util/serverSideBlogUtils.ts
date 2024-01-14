@@ -1,22 +1,26 @@
 import fs from 'fs-extra'
 import { compile } from 'mdsvex'
+import { type BlogPostMetadata, parseFrontMatter } from './blogUtils'
 
-export type BlogPost = {
-	slug: string
-	date: Date
-	title: string
-	tags: string[]
+export async function getPublishedBlogPosts(): Promise<BlogPostMetadata[]> {
+	return getBlogPosts('blog')
 }
 
-export async function getBlogPosts(): Promise<BlogPost[]> {
+export async function getDraftBlogPosts(): Promise<BlogPostMetadata[]> {
+	return getBlogPosts('blog/drafts')
+}
+
+export async function getBlogPosts(markdownDir: string): Promise<BlogPostMetadata[]> {
 	const filenames = await Promise.all(
-		(await fs.promises.readdir('blog', 'utf-8')).filter((filename) => filename.endsWith('.md'))
+		(await fs.promises.readdir(markdownDir, 'utf-8')).filter((filename) =>
+			filename.endsWith('.md')
+		)
 	)
 	return (
 		await Promise.all(
 			filenames.map(async (filename) => {
 				const compiled = await fs.promises
-					.readFile(`blog/${filename}`, 'utf-8')
+					.readFile(`${markdownDir}/${filename}`, 'utf-8')
 					.then((md) => compile(md))
 				if (!compiled) {
 					console.warn('Could not compile markdown')
@@ -26,26 +30,24 @@ export async function getBlogPosts(): Promise<BlogPost[]> {
 					console.warn('Front matter is missing')
 					return
 				}
-				const frontMatter = compiled.data.fm as Record<string, unknown>
+				const frontMatter = parseFrontMatter(compiled.data.fm as Record<string, unknown>)
+				if (!frontMatter) {
+					return
+				}
 				const requiredKeys = ['title', 'date']
 				const missingKeys = requiredKeys.filter((key) => !(key in frontMatter))
 				if (missingKeys.length) {
 					console.warn(`Missing required keys in front matter: ${missingKeys.join(', ')}`)
 					return
 				}
-				const title = frontMatter.title as string
-				const date = frontMatter.date as Date
-				const tags = frontMatter.tags as string | undefined
 				return {
-					title,
-					date,
-					slug: filename.replace(/\.md$/, ''),
-					tags: (tags ?? '').split(',').map((tag: string) => tag.trim())
+					...frontMatter,
+					slug: filename.replace(/\.md$/, '')
 				}
 			})
 		)
 	)
 		.filter((x) => !!x)
-		.map((x) => x as BlogPost)
+		.map((x) => x as BlogPostMetadata)
 		.sort((a, b) => (a.date > b.date ? -1 : 1))
 }

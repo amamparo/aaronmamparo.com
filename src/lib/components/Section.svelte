@@ -1,7 +1,3 @@
-<script context="module" lang="ts">
-	import './section.scss'
-</script>
-
 <script lang="ts">
 	export let title: string = ''
 </script>
