@@ -29,7 +29,7 @@ jobs:
                   aws-region: us-east-1
             - uses: oven-sh/setup-bun@v1
             - run: bun install
-            - run: bun build
+            - run: bun run build
             - run: bun deploy:stack
             - name: Upload to S3
               run: aws s3 sync build "s3://${BUCKET}" --delete
