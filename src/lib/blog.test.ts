@@ -25,7 +25,7 @@ describe('parseBlogPost', () => {
 			})
 
 			test('date', () => {
-				expect(blogPost.date).toBe('2024-01-01')
+				expect(blogPost.date).toEqual(new Date('2024-01-01'))
 			})
 
 			test('slug', () => {

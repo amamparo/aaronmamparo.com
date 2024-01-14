@@ -3,7 +3,7 @@ import path from 'path'
 
 export type BlogPost = {
 	slug: string
-	date: string
+	date: Date
 	title: string
 	tags: string[]
 	content: string
@@ -45,13 +45,14 @@ export const parseBlogPost = async (markdown: string): Promise<BlogPost> => {
 	if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) {
 		throw new Error('Invalid date')
 	}
+	const [year, month, day] = date.split('-').map(Number)
 
 	return {
 		slug: `${date}-${title
 			.toLowerCase()
 			.replace(/\s+/g, '-')
 			.replace(/[^\w-]+/g, '')}`,
-		date,
+		date: new Date(year, month - 1, day),
 		title,
 		tags: frontMatter.tags ? frontMatter.tags.split(',').map((x) => x.trim()) : [],
 		content
@@ -72,5 +73,7 @@ export const getBlogPosts = async (): Promise<BlogPost[]> => {
 				}
 			})
 		)
-	).filter((x) => !!x) as BlogPost[]
+	)
+		.filter((x) => !!x)
+		.sort((a, b) => (a!.date > b!.date ? -1 : 1)) as BlogPost[]
 }
