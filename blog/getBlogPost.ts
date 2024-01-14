@@ -5,6 +5,10 @@ export const getBlogPost = async (markdown: string): Promise<BlogPost> => {
 	if (!frontMatterMatch) {
 		throw new Error('Missing front matter')
 	}
+	const content = markdown.split('---').pop()!.trim()
+	if (!content) {
+		throw new Error('Missing content')
+	}
 	const frontMatter = frontMatterMatch[0]
 		.replace(/---/g, '')
 		.split('\n')

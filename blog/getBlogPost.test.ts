@@ -101,6 +101,20 @@ describe('getBlogPost', () => {
 				)
 			).toBe('Invalid date')
 		})
+
+		test('missing content', async () => {
+			expect(
+				await getErrorMessage(
+					getBlogPost(`
+					---
+					title: Hello, World!
+					date: 2024-01-01
+					---
+					
+				`)
+				)
+			).toBe('Missing content')
+		})
 	})
 })
 
