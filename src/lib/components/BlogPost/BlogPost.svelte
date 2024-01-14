@@ -6,19 +6,19 @@
 	import type { BlogPost } from '$lib/blog'
 
 	export let blogPost: BlogPost
-	const { content, title, tags, date } = blogPost
+	const { title, tags, date } = blogPost.metadata
 </script>
 
 <div class="blog-post">
 	<h1 class="title">{title}</h1>
 	<div class="content">
-		{@html marked.parse(content, { breaks: true, gfm: true })}
+		{@html marked.parse(blogPost.content, { breaks: true, gfm: true })}
 	</div>
 	<span class="meta">
 		<Date {date} />
 		{#if tags.length}
 			·
-			{@html tags.map((tag) => `<a href="/tag/${tag}">${tag}</a>`).join(', ')}
+			{@html tags.map((tag) => `<a href="/">${tag}</a>`).join(', ')}
 		{/if}
 	</span>
 </div>

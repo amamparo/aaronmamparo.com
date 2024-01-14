@@ -1,19 +1,19 @@
-import { env } from '$env/dynamic/public'
 import { error, type NumericRange } from '@sveltejs/kit'
+import type { BlogPost, BlogPostMetadata } from '$lib/blog'
 
-export async function load({ params, parent }) {
+export async function load({ params, parent, fetch }) {
 	const { slug } = params
-	const { blogPosts } = await parent()
-	const blogPost = blogPosts.find((x) => x.slug === slug)
-	if (!blogPost) {
+	const { blogPostMetadatas } = await parent()
+	const blogPostMetadata = blogPostMetadatas.find((x: BlogPostMetadata) => x.slug === slug)
+	if (!blogPostMetadata) {
 		error(404)
 	}
-	const res = await fetch(`${env.PUBLIC_BLOG_BUCKET_URL}/${blogPost.s3Key}`)
-	if (res.status >= 400 && res.status <= 599) {
-		error(res.status as NumericRange<400, 599>)
+	const contentResponse = await fetch(blogPostMetadata.location as string)
+	if (contentResponse.status >= 400 && contentResponse.status <= 599) {
+		error(contentResponse.status as NumericRange<400, 599>)
 	}
 	return {
-		...blogPost,
-		content: await res.text()
-	}
+		metadata: blogPostMetadata,
+		content: await contentResponse.text()
+	} as BlogPost
 }
