@@ -1,16 +1,30 @@
 [
 	{
-		"slug": "2024-01-13-how-i-structure-my-python-projects",
-		"date": "2024-01-13",
-		"title": "How I structure my Python projects",
-		"tags": ["code", "python"],
-		"location": "/_blog/publish/2024-01-13-how-i-structure-my-python-projects.md"
+		"slug": "0172-03-15-lifes-impermanence-and-inner-tranquility",
+		"date": "0172-03-15",
+		"title": "Life's Impermanence and Inner Tranquility",
+		"tags": ["philosophy"],
+		"location": "/_blog/publish/0172-03-15-lifes-impermanence-and-inner-tranquility.md"
 	},
 	{
-		"slug": "1992-07-06-lorem-ipsum-dolor-sit-amet",
-		"date": "1992-07-06",
-		"title": "Lorem ipsum dolor sit amet",
-		"tags": [],
-		"location": "/_blog/publish/1992-07-06-lorem-ipsum-dolor-sit-amet.md"
+		"slug": "0172-02-20-lifes-purpose-and-the-nature-of-the-soul",
+		"date": "0172-02-20",
+		"title": "Life's Purpose and the Nature of the Soul",
+		"tags": ["philosophy"],
+		"location": "/_blog/publish/0172-02-20-lifes-purpose-and-the-nature-of-the-soul.md"
+	},
+	{
+		"slug": "0171-09-01-the-nature-of-life-and-duty",
+		"date": "0171-09-01",
+		"title": "The Nature of Life and Duty",
+		"tags": ["philosophy"],
+		"location": "/_blog/publish/0171-09-01-the-nature-of-life-and-duty.md"
+	},
+	{
+		"slug": "0171-07-06-teachings-from-my-ancestors-and-guides",
+		"date": "0171-07-06",
+		"title": "Teachings from My Ancestors and Guides",
+		"tags": ["philosophy"],
+		"location": "/_blog/publish/0171-07-06-teachings-from-my-ancestors-and-guides.md"
 	}
 ]
