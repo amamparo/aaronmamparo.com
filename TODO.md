@@ -1,4 +1,4 @@
 # TODO
 
-- Disqus commenting
 - SEO (meta tags)
+- Google analytics
