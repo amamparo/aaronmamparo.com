@@ -8,8 +8,12 @@
 		if (typeof window !== 'undefined') {
 			const interval = setInterval(() => {
 				if ('commento' in window) {
-					clearInterval(interval)
-					;(window.commento as { main: () => void }).main()
+					// eslint-disable-next-line @typescript-eslint/no-explicit-any
+					const commento = window.commento as any
+					if ('main' in commento) {
+						clearInterval(interval)
+						commento.main()
+					}
 				}
 			}, 100)
 		}
