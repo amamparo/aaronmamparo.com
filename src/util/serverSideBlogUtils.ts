@@ -16,23 +16,31 @@ export async function getDraftBlogPosts(): Promise<BlogPostMetadata[]> {
 }
 
 export async function getBlogPosts(markdownDir: string): Promise<BlogPostMetadata[]> {
-	const filenames = await Promise.all(
-		(await fs.promises.readdir(markdownDir, 'utf-8')).filter((filename) =>
-			filename.endsWith('.md')
+	const markdownFilenames = (
+		await Promise.all(
+			(await fs.promises.readdir(markdownDir, 'utf-8')).filter((filename) =>
+				filename.endsWith('.md')
+			)
 		)
-	)
+	).filter((markdownFilename) => {
+		if (/\s/.test(markdownFilename)) {
+			console.warn(`Skipping because filename contains whitespace: ${markdownFilename}`)
+			return false
+		}
+		return true
+	})
 	return (
 		await Promise.all(
-			filenames.map(async (filename) => {
+			markdownFilenames.map(async (filename) => {
 				const compiled = await fs.promises
 					.readFile(`${markdownDir}/${filename}`, 'utf-8')
 					.then((md) => compile(md))
 				if (!compiled) {
-					console.warn('Could not compile markdown')
+					console.warn(`Could not compile markdown: ${filename}`)
 					return
 				}
 				if (!compiled.data || !compiled.data.fm) {
-					console.warn('Front matter is missing')
+					console.warn(`Front matter is missing: ${filename}`)
 					return
 				}
 				const frontMatter = parseFrontMatter(compiled.data.fm as Record<string, unknown>)
@@ -42,7 +50,11 @@ export async function getBlogPosts(markdownDir: string): Promise<BlogPostMetadat
 				const requiredKeys = ['title', 'date']
 				const missingKeys = requiredKeys.filter((key) => !(key in frontMatter))
 				if (missingKeys.length) {
-					console.warn(`Missing required keys in front matter: ${missingKeys.join(', ')}`)
+					console.warn(
+						`Missing required keys in front matter: ${missingKeys.join(
+							', '
+						)} - ${filename}`
+					)
 					return
 				}
 				return {
