@@ -3,68 +3,17 @@
 	import Link from './Link.svelte'
 </script>
 
-<main>
-	<header>
-		<nav>
-			<ul>
-				<Link href="/">Thoughts</Link>
-				<Link href="/about">About</Link>
-				<Link href="/atom.xml">Rss</Link>
-			</ul>
+<div class="leading-6 px-4 my-12 mx-auto flex flex-col md:flex-row justify-center">
+	<div class="p-4 md:w-36">
+		<nav
+			class="pb-8 border-b border-gray-200 flex flex-row md:border-b-0 md:border-r md:flex-col md:pb-0"
+		>
+			<Link href="/">Thoughts</Link>
+			<Link href="/about">About</Link>
+			<Link href="/atom.xml">RSS</Link>
 		</nav>
-	</header>
-	<section>
+	</div>
+	<div class="p-4 flex-grow md:max-w-3xl">
 		<slot />
-	</section>
-</main>
-
-<style lang="scss">
-	main {
-		display: flex;
-		flex-wrap: wrap;
-		max-width: 60rem;
-		margin: 2rem auto;
-		padding: 1rem;
-
-		@media (max-width: 45rem) {
-			display: block;
-		}
-
-		header,
-		section {
-			padding: 1rem;
-		}
-
-		header {
-			flex-basis: 10rem;
-			flex-grow: 1;
-			position: relative;
-			padding: 1rem;
-
-			nav {
-				display: block;
-
-				ul {
-					list-style: none;
-					margin: 0;
-					padding: 0;
-					border-right: 1px solid #edf2f7;
-
-					@media (max-width: 45rem) {
-						border-right: 0;
-						border-bottom: 1px solid #edf2f7; // TODO: DRY up
-						padding-bottom: 2rem;
-					}
-				}
-			}
-		}
-
-		section {
-			flex-basis: 0;
-			flex-grow: 999;
-			min-width: 70%;
-			display: flex;
-			flex-direction: column;
-		}
-	}
-</style>
+	</div>
+</div>

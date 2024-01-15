@@ -4,25 +4,8 @@
 	export let href: string
 </script>
 
-<li><a {href} class:active={$page.url.pathname === `${href}/`.replace('//', '/')}><slot /></a></li>
-
-<style lang="scss">
-	li {
-		margin-bottom: 0.2rem;
-		text-align: right;
-		margin-right: 2rem;
-
-		a {
-			text-decoration: none;
-
-			&.active {
-				font-weight: bold;
-			}
-		}
-
-		@media (max-width: 45rem) {
-			display: inline;
-			margin-right: 1rem;
-		}
-	}
-</style>
+<a
+	{href}
+	class="mr-4 md:text-right md:mr-8 md:mb-1"
+	class:font-semibold={$page.url.pathname === `${href}/`.replace('//', '/')}><slot /></a
+>

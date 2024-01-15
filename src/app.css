@@ -1,21 +1,8 @@
-*,
-:after,
-:before {
-	box-sizing: border-box;
-	background-color: inherit;
-	color: inherit;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 body {
-	font-family: system-ui, sans-serif;
-	-webkit-font-smoothing: antialiased;
-	text-rendering: optimizeLegibility;
-	line-height: 1.5;
-	color: #16171a;
-}
-
-h1, h2, h3, h4, h5 {
-	line-height: 1;
-	margin: 1.25rem 0 1rem;
-	font-weight: 600;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
 }

@@ -1,8 +1,8 @@
 <script>
-	import Section from '$lib/components/Section.svelte'
+	import Article from '$lib/components/Article.svelte'
 </script>
 
-<Section title="Hi, I'm Aaron">
+<Article title="Hi, I'm Aaron">
 	<p>
 		A Chicago native, I've been doing software things for money since 2014 (currently at <a
 			href="https://www.tastytrade.com/"
@@ -21,4 +21,4 @@
 			>shoot me an email</a
 		>
 	</p>
-</Section>
+</Article>
