@@ -4,6 +4,9 @@ export async function load({ params }) {
 	const { tag } = params
 	return {
 		tag,
-		blogPosts: await getTaggedBlogPosts(tag)
+		blogPosts: await getTaggedBlogPosts(tag),
+		metaTags: {
+			title: `#${tag}`
+		}
 	}
 }

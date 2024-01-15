@@ -9,9 +9,14 @@ export async function load({ params }) {
 	} catch (e) {
 		error(404)
 	}
+	const frontMatter = parseFrontMatter(post.metadata) as FrontMatter
 	return {
 		slug,
-		frontMatter: parseFrontMatter(post.metadata) as FrontMatter,
-		content: post.default
+		frontMatter,
+		content: post.default,
+		metaTags: {
+			title: frontMatter.title,
+			keywords: frontMatter.tags
+		}
 	}
 }
