@@ -3,13 +3,13 @@ import { defineConfig, searchForWorkspaceRoot } from 'vite'
 import { Feed } from 'feed'
 import fs from 'fs-extra'
 import path from 'path'
-import { getPublishedBlogPosts } from './src/util/serverSideBlogUtils'
+import { getBlogPosts } from './src/util/serverSideBlogUtils'
 
 const buildRssOnBuildStart = () => {
 	return {
 		name: 'build-rss-on-build-start',
 		async buildStart() {
-			const posts = await getPublishedBlogPosts()
+			const posts = await getBlogPosts()
 			const feed = new Feed({
 				title: 'Aaron Mamparo',
 				id: 'https://aaronmamparo.com',

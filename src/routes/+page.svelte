@@ -3,4 +3,4 @@
 	import BlogPosts from '$lib/components/BlogPosts.svelte'
 </script>
 
-<BlogPosts blogPosts={$page.data.blogPosts} postUrlPrefix={'/post/'} />
+<BlogPosts blogPosts={$page.data.blogPosts} />

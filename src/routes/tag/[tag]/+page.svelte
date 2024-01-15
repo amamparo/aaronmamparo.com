@@ -10,4 +10,4 @@
 	Post tagged with <span class="font-semibold">#{tag}</span>
 </div>
 
-<BlogPosts blogPosts={$page.data.blogPosts} postUrlPrefix={'/post/'} />
+<BlogPosts blogPosts={$page.data.blogPosts} />

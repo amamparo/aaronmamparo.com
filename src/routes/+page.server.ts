@@ -1,7 +1,7 @@
-import { getPublishedBlogPosts } from '../util/serverSideBlogUtils'
+import { getBlogPosts } from '../util/serverSideBlogUtils'
 
 export async function load() {
 	return {
-		blogPosts: await getPublishedBlogPosts()
+		blogPosts: await getBlogPosts()
 	}
 }
