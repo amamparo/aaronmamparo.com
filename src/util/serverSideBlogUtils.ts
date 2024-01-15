@@ -3,15 +3,16 @@ import { compile } from 'mdsvex'
 import { type BlogPostMetadata, parseFrontMatter } from './blogUtils'
 
 export async function getBlogPosts(): Promise<BlogPostMetadata[]> {
-	const markdownFilenames = (
-		await Promise.all(
-			(await fs.promises.readdir('blog', 'utf-8')).filter((filename) =>
-				filename.endsWith('.md')
-			)
-		)
-	).filter((markdownFilename) => {
-		if (/\s/.test(markdownFilename)) {
-			console.warn(`Skipping because filename contains whitespace: ${markdownFilename}`)
+	const allFilenames = await fs.promises.readdir('blog', 'utf-8')
+	const markdownFilenames = allFilenames.filter((filename) => {
+		if (!filename.endsWith('.md')) {
+			return false
+		}
+		if (filename === 'README.md') {
+			return false
+		}
+		if (/\s/.test(filename)) {
+			console.warn(`Skipping because filename contains whitespace: ${filename}`)
 			return false
 		}
 		return true
