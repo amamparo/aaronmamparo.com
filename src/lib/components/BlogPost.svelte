@@ -9,6 +9,10 @@
 	const { title, date, tags } = frontMatter
 </script>
 
+<svelte:head>
+	<script defer src="https://cdn.commento.io/js/commento.js"></script>
+</svelte:head>
+
 <Article {title}>
 	<div class="pb-4 mb-4 border-gray-300 border-0 md:border-b">
 		<div class="opacity-80">
@@ -23,3 +27,4 @@
 	</div>
 	<svelte:component this={content} />
 </Article>
+<div id="commento" class="mt-12"></div>

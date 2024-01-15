@@ -27,7 +27,6 @@
     "aws-cdk-lib": "2.92.0",
     "bun-types": "^1.0.22",
     "dayjs": "^1.11.10",
-    "disqus-svelte": "^1.0.9",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-svelte": "^2.35.1",
