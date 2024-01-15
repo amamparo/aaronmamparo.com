@@ -6,6 +6,6 @@
 
 <a
 	{href}
-	class="mr-4 md:text-right md:mr-8 md:mb-1"
+	class="mr-4 md:text-right md:mr-8 md:mb-2"
 	class:font-semibold={$page.url.pathname === `${href}/`.replace('//', '/')}><slot /></a
 >

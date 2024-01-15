@@ -4,7 +4,7 @@
 
 <article class="prose max-w-none">
 	{#if title}
-		<h2>{title}</h2>
+		<h2 class="mb-2 text-3xl">{title}</h2>
 	{/if}
 	<slot />
 </article>
