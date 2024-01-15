@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { FrontMatter } from '../../util/blogUtils'
+	import Article from '$lib/components/Article.svelte'
 
 	/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 	export let content: any
@@ -7,7 +8,6 @@
 	const { title } = frontMatter
 </script>
 
-<article class="prose">
-	<h2>{title}</h2>
+<Article {title}>
 	<svelte:component this={content} />
-</article>
+</Article>

@@ -1,5 +1,8 @@
-<article class="prose">
-	<h2>Hi, I'm Aaron</h2>
+<script>
+	import Article from '$lib/components/Article.svelte'
+</script>
+
+<Article title="Hi, I'm Aaron">
 	<p>
 		A Chicago native, I've been doing software things for money since 2014 (currently at <a
 			href="https://www.tastytrade.com/"
@@ -18,4 +21,4 @@
 			>shoot me an email</a
 		>
 	</p>
-</article>
+</Article>
