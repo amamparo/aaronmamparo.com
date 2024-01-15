@@ -2,7 +2,7 @@
 	import BlogPost from '$lib/components/BlogPost.svelte'
 
 	export let data
-	const { slug, frontMatter, content } = data
+	const { frontMatter, content } = data
 </script>
 
-<BlogPost {slug} {frontMatter} {content} />
+<BlogPost {frontMatter} {content} />
