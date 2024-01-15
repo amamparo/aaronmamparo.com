@@ -2,7 +2,6 @@
 	import Article from '$lib/components/Article.svelte'
 	import Date from '$lib/components/Date.svelte'
 	import Comments from '$lib/components/Comments.svelte'
-	import { MetaTags } from 'svelte-meta-tags'
 
 	export let data
 	const { frontMatter, content } = data
