@@ -2,23 +2,10 @@ import fs from 'fs-extra'
 import { compile } from 'mdsvex'
 import { type BlogPostMetadata, parseFrontMatter } from './blogUtils'
 
-export async function getPublishedBlogPosts(): Promise<BlogPostMetadata[]> {
-	return getBlogPosts('blog')
-}
-
-export async function getBlogPostsFor(tag: string): Promise<BlogPostMetadata[]> {
-	const allBlogPosts = await getPublishedBlogPosts()
-	return allBlogPosts.filter((post) => post.tags.includes(tag.toLowerCase()))
-}
-
-export async function getDraftBlogPosts(): Promise<BlogPostMetadata[]> {
-	return getBlogPosts('blog/drafts')
-}
-
-export async function getBlogPosts(markdownDir: string): Promise<BlogPostMetadata[]> {
+export async function getBlogPosts(): Promise<BlogPostMetadata[]> {
 	const markdownFilenames = (
 		await Promise.all(
-			(await fs.promises.readdir(markdownDir, 'utf-8')).filter((filename) =>
+			(await fs.promises.readdir('blog', 'utf-8')).filter((filename) =>
 				filename.endsWith('.md')
 			)
 		)
@@ -33,7 +20,7 @@ export async function getBlogPosts(markdownDir: string): Promise<BlogPostMetadat
 		await Promise.all(
 			markdownFilenames.map(async (filename) => {
 				const compiled = await fs.promises
-					.readFile(`${markdownDir}/${filename}`, 'utf-8')
+					.readFile(`blog/${filename}`, 'utf-8')
 					.then((md) => compile(md))
 				if (!compiled) {
 					console.warn(`Could not compile markdown: ${filename}`)
@@ -67,4 +54,9 @@ export async function getBlogPosts(markdownDir: string): Promise<BlogPostMetadat
 		.filter((x) => !!x)
 		.map((x) => x as BlogPostMetadata)
 		.sort((a, b) => (a.date > b.date ? -1 : 1))
+}
+
+export async function getTaggedBlogPosts(tag: string): Promise<BlogPostMetadata[]> {
+	const allBlogPosts = await getBlogPosts()
+	return allBlogPosts.filter((post) => post.tags.includes(tag.toLowerCase()))
 }

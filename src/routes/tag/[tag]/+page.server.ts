@@ -1,9 +1,9 @@
-import { getBlogPostsFor } from '../../../util/serverSideBlogUtils'
+import { getTaggedBlogPosts } from '../../../util/serverSideBlogUtils'
 
 export async function load({ params }) {
 	const { tag } = params
 	return {
 		tag,
-		blogPosts: await getBlogPostsFor(tag)
+		blogPosts: await getTaggedBlogPosts(tag)
 	}
 }
