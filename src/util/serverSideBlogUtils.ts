@@ -6,6 +6,11 @@ export async function getPublishedBlogPosts(): Promise<BlogPostMetadata[]> {
 	return getBlogPosts('blog')
 }
 
+export async function getBlogPostsFor(tag: string): Promise<BlogPostMetadata[]> {
+	const allBlogPosts = await getPublishedBlogPosts()
+	return allBlogPosts.filter((post) => post.tags.includes(tag.toLowerCase()))
+}
+
 export async function getDraftBlogPosts(): Promise<BlogPostMetadata[]> {
 	return getBlogPosts('blog/drafts')
 }

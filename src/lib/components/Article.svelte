@@ -1,9 +1,11 @@
 <script lang="ts">
-	export let title: string
+	export let title: string = ''
 </script>
 
 <article class="prose max-w-none">
-	<h2>{title}</h2>
+	{#if title}
+		<h2 class="mb-2 text-3xl">{title}</h2>
+	{/if}
 	<slot />
 </article>
 

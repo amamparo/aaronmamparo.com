@@ -40,10 +40,7 @@ export default defineConfig({
 	plugins: [sveltekit(), buildRssOnBuildStart()],
 	server: {
 		fs: {
-			allow: [
-				// search up for workspace root
-				searchForWorkspaceRoot(process.cwd())
-			]
+			allow: [searchForWorkspaceRoot(process.cwd())]
 		}
 	}
 })

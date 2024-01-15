@@ -1,7 +1,7 @@
 ---
 title: Life's Impermanence and Inner Tranquility
 date: 0172-03-15
-tags: philosophy
+tags: [philosophy]
 ---
 
 I. That inward mistress part of man if it be in its own true natural temper, is towards all worldly chances and events ever so disposed and affected, that it will easily turn and apply itself to that which may be, and is within its own power to compass, when that cannot be which at first it intended. For it never doth absolutely addict and apply itself to any one object, but whatsoever it is that it doth now intend and prosecute, it doth prosecute it with exception and reservation; so that whatsoever it is that falls out contrary to its first intentions, even that afterwards it makes its proper object. Even as the fire when it prevails upon those things that are in his way; by which things indeed a little fire would have been quenched, but a great fire doth soon turn to its own nature, and so consume whatsoever comes in his way: yea by those very things it is made greater and greater.

@@ -1,7 +1,7 @@
 ---
 title: Teachings from My Ancestors and Guides
 date: 0171-07-06
-tags: philosophy
+tags: [philosophy]
 ---
 
 I. Of my grandfather Verus I have learned to be gentle and meek, and to refrain from all anger and passion. From the fame and memory of him that begot me I have learned both shamefastness and manlike behaviour. Of my mother I have learned to be religious, and bountiful; and to forbear, not only to do, but to intend any evil; to content myself with a spare diet, and to fly all such excess as is incidental to great wealth. Of my great-grandfather, both to frequent public schools and auditories, and to get me good and able teachers at home; and that I ought not to think much, if upon such occasions, I were at excessive charges.
