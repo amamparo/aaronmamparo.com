@@ -1,5 +1,7 @@
 import { getTaggedBlogPosts } from '../../../util/serverSideBlogUtils'
 
+export const prerender = 'auto'
+
 export async function load({ params }) {
 	const { tag } = params
 	return {
