@@ -49,7 +49,7 @@ to write working code, the less you feel the need to let tests guide your implem
 It was frustrating.  I felt like I was coding with one hand tied behind my back.  But, with some
 coaching and assurance from my mentor, I persisted, and I eventually saw the light.  By learning to
 think in smaller increments and letting the tests guide my implementation, I found myself
-catching edge cases and bugs that I otherwise would've missed (and probably wouldn't have 
+catching edge cases and bugs that I would've missed otherwise (and probably wouldn't have 
 written tests for after the fact).
 
 Fast-forward a few years.  I would like to say that I've stayed true to TDD, but I haven't.  I 
