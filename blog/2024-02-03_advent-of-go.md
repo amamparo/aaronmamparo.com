@@ -40,7 +40,7 @@ influential mentors. At the time, we were writing Java. I myself had a few years
 writing production Java code.
 
 My Java experience, however, proved to be more of a hindrance than a help in learning TDD. It may
-seem counterintuitive, but think about it. The more intimately you know a language, the more
+seem counterintuitive, but think about it: the more intimately you know a language, the more
 confident you are in your ability to write working code. The more confident you are in your ability
 to write working code, the less you feel the need to let tests guide your implementation.
 
@@ -59,7 +59,7 @@ current team, the lack of a strong emphasis on TDD has allowed me to let the hab
 
 My hope is that, through learning an unfamiliar programming language with which I have no 
 confidence in my ability to write working code, I'll be forced to rely on TDD to guide my
-solutions. Then, after re-vitalizing my TDD skills, I hope to bring it to my current team and 
+solutions. Then, after revitalizing my TDD skills, I hope to bring it to my current team and 
 try to make it a group habit.
 
 ---
@@ -81,4 +81,4 @@ Keep an eye out for my follow-up entries under [#advent-of-code](/tag/advent-of-
 entry, I'll try to explain my thought process in as much detail as appropriate, especially around
 the tests I'm writing to guide myself toward each challenge's solution. I'll include code 
 snippets and GitHub links.  For at least the first few entries, there **will** be ugly
-code, so feedback would be greatly appreciated.
+code, so feedback will be greatly appreciated.
