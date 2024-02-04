@@ -19,7 +19,7 @@ since I learned a new programming language, and [Go](https://go.dev/) has been o
 
 I'm a huge fan of Python. I make heavy use of its `typing` module to leave type hints in my code.
 Unfortunately, though, Python type hints are just that: hints. They're not enforced anywhere except
-passively by the IDE. I predict that I'll enjoy Go's static-typing.
+passively by the IDE. I predict that I'll enjoy Go's static typing.
 
 I've also heard that Go is much more performant than Python, especially when it comes to concurrent
 tasks, so I'm looking forward to reaping those benefits as well.
@@ -77,7 +77,7 @@ series of posts that will be followed-up on for a few weeks.
 
 ---
 
-Keep an eye out for my follow-up entries under [#advent-of-code](/tag/advent-of-go/).  In each 
+Keep an eye out for my follow-up entries under [#advent-of-go](/tag/advent-of-go).  In each 
 entry, I'll try to explain my thought process in as much detail as appropriate, especially around
 the tests I'm writing to guide myself toward each challenge's solution. I'll include code 
 snippets and GitHub links.  For at least the first few entries, there **will** be ugly
