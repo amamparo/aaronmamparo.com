@@ -14,6 +14,14 @@ export async function load({ params }) {
 		slug,
 		frontMatter,
 		content: post.default,
+		images: [
+			{
+				url: frontMatter.imageUrl,
+				width: 512,
+				height: 512,
+				alt: frontMatter.title
+			}
+		],
 		metaTags: {
 			title: frontMatter.title,
 			keywords: frontMatter.tags

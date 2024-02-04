@@ -2,6 +2,7 @@
 title: Advent of Go
 date: 2024-02-03
 tags: [ coding, golang, tdd, advent-of-go ]
+imageUrl: /golang.jpeg
 ---
 
 Over the next few weeks, I'll be solving [Advent of Code 2023](https://adventofcode.com/2023)

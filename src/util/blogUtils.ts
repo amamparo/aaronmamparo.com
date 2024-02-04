@@ -6,6 +6,7 @@ export type FrontMatter = {
 	date: Date
 	title: string
 	tags: string[]
+	imageUrl?: string
 }
 
 export function parseFrontMatter(frontMatter: Record<string, unknown>): FrontMatter | undefined {
@@ -23,6 +24,7 @@ export function parseFrontMatter(frontMatter: Record<string, unknown>): FrontMat
 	return {
 		title: frontMatter.title as string,
 		date: new Date(frontMatter.date as string),
-		tags: tags.map((tag) => tag.toLowerCase())
+		tags: tags.map((tag) => tag.toLowerCase()),
+		imageUrl: frontMatter.imageUrl as string | undefined
 	}
 }

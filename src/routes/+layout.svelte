@@ -9,13 +9,7 @@
 		openGraph: {
 			siteName: 'Aaron Mamparo',
 			url: $page.url,
-			images: [
-				{
-					url: '/headshot-1024.png',
-					width: 1024,
-					height: 1024,
-					alt: 'Aaron Mamparo 1024x1024'
-				},
+			images: $page.data.images ?? [
 				{
 					url: '/headshot-512.png',
 					width: 512,
