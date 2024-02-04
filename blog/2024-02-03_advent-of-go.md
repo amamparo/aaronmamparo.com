@@ -5,7 +5,7 @@ tags: [ coding, golang, tdd, advent-of-go ]
 imageUrl: /golang.jpeg
 ---
 
-Over the next few weeks, I'll be solving [Advent of Code 2023](https://adventofcode.com/2023)
+Over the next few weeks, I'll be solving [Advent of Code 2023](https://adventofcode.com/2023/about)
 challenges with the Go programming language and sharing my experience here.
 
 Why?
