@@ -59,8 +59,8 @@ current team, the lack of a strong emphasis on TDD has allowed me to let the hab
 
 My hope is that, through learning an unfamiliar programming language with which I have little 
 confidence in my ability to write working code, I'll be forced to rely on TDD to guide my
-solutions. Then, after revitalizing my TDD skills, I hope to bring it to my current team and 
-try to make it a group habit.
+solutions. Then, after revitalizing my TDD skills, I hope to bring it to my current team and make
+it a group habit.
 
 ---
 
