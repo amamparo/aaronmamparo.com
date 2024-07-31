@@ -3,6 +3,7 @@
 	import Link from './Link.svelte'
 	import { MetaTags } from 'svelte-meta-tags'
 	import { page } from '$app/stores'
+	import { afterUpdate, onMount } from 'svelte'
 
 	$: metaTags = {
 		title: 'Aaron Mamparo',
@@ -20,6 +21,16 @@
 		},
 		...$page.data.metaTags
 	}
+
+	const openExternalLinksInNewTab = () => document.querySelectorAll('a').forEach(link => {
+		if (new URL(link.href).hostname !== window.location.hostname) {
+			link.target = '_blank'
+			link.rel = 'noopener noreferrer'
+		}
+	})
+
+	onMount(openExternalLinksInNewTab)
+	afterUpdate(openExternalLinksInNewTab)
 </script>
 
 <MetaTags {...metaTags} />
