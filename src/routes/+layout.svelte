@@ -22,12 +22,13 @@
 		...$page.data.metaTags
 	}
 
-	const openExternalLinksInNewTab = () => document.querySelectorAll('a').forEach(link => {
-		if (new URL(link.href).hostname !== window.location.hostname) {
-			link.target = '_blank'
-			link.rel = 'noopener noreferrer'
-		}
-	})
+	const openExternalLinksInNewTab = () =>
+		document.querySelectorAll('a').forEach((link) => {
+			if (new URL(link.href).hostname !== window.location.hostname) {
+				link.target = '_blank'
+				link.rel = 'noopener noreferrer'
+			}
+		})
 
 	onMount(openExternalLinksInNewTab)
 	afterUpdate(openExternalLinksInNewTab)
